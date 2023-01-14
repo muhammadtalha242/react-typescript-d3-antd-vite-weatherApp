@@ -20,7 +20,7 @@ const weatherReducer = (state: IState, action: IAction) => {
   }
 };
 
-const WeatherContxt = () => {
+const Context = () => {
   const WeatherContext = createContext<{
     state: IState;
     dispatch?: React.Dispatch<IAction>;
@@ -33,7 +33,7 @@ const WeatherContxt = () => {
       </WeatherContext.Provider>
     );
   };
-  return <div>WeatherContext</div>;
+  return { WeatherContext, Provider };
 };
 
-export default WeatherContxt;
+export const { WeatherContext, Provider } = Context();
