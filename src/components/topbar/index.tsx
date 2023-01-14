@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useContext } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { AiOutlineBell, AiOutlineUser } from "react-icons/ai";
 import debounce from "lodash.debounce";
@@ -7,8 +7,16 @@ import InputSearch, { ISearch } from "../common/input-search";
 import { HeaderContainer } from "./container";
 import GeoCodingService from "../../services/geocodeing-api";
 import WeatherService from "../../services/weather-api";
+import {
+  WeatherContext,
+  setCityDetails,
+  setCurrentWeather,
+  setForcastWeather,
+} from "../../context/weather-api.context";
 
 const TopBar = () => {
+  const { state: WeatherState, dispatch: WeatherDispatch } =
+    useContext(WeatherContext);
   const [collapsed, setCollapsed] = useState(false);
   const [city, setCity] = useState({ name: "", lat: "", lon: "" });
   const [options, setOptions] = useState<ISearch>({
@@ -32,7 +40,6 @@ const TopBar = () => {
       try {
         const res = await GeoCodingService.getName(value);
         console.log("🚀 ~ file: index.tsx:34 ~ debounce ~ res", res);
-
         const citiesArray: {
           value: string;
           label: string;
@@ -63,12 +70,23 @@ const TopBar = () => {
       lat: selectedOption.coordinates.lat,
       lon: selectedOption.coordinates.lon,
     });
-
-    const res = await WeatherService.getCurrentWeather({
+    const currentWeatherResp = await WeatherService.getCurrentWeather({
       ...selectedOption.coordinates,
     });
-    console.log("🚀 ~ file: index.tsx:70 ~ handleSelectedValue ~ res", res)
+    const forcastWeatherResp = await WeatherService.getForecastWeather({
+      ...selectedOption.coordinates,
+    });
+    setCityDetails(WeatherDispatch)({
+      name: selectedOption.value,
+      coord: {
+        lat: selectedOption.coordinates.lat,
+        lon: selectedOption.coordinates.lon,
+      },
+    });
+    setCurrentWeather(WeatherDispatch)(currentWeatherResp);
+    setForcastWeather(WeatherDispatch)(forcastWeatherResp);
   };
+
   return (
     <HeaderContainer>
       <div className="left">

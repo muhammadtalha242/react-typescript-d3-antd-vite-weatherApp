@@ -23,6 +23,18 @@ const weatherReducer = (state: IState, action: IAction) => {
         coord: { ...action.payload.coord },
       };
     }
+    case ACTION_TYPES.SET_CURRENT_WEATHER: {
+      return {
+        ...state,
+        currentWeather: { ...action.payload },
+      };
+    }
+    case ACTION_TYPES.SET_FORCAT_WEATHER: {
+      return {
+        ...state,
+        forcastWeather: { ...action.payload },
+      };
+    }
 
     default:
       return { ...state };
@@ -46,13 +58,15 @@ export const setCityDetails =
   };
 
 export const setCurrentWeather =
-  (dispatch: React.Dispatch<IAction> | undefined) => () => {
-    if (dispatch) dispatch({ type: "", payload: "" });
+  (dispatch: React.Dispatch<IAction> | undefined) => (weather: any) => {
+    if (dispatch)
+      dispatch({ type: ACTION_TYPES.SET_CURRENT_WEATHER, payload: weather });
   };
 
 export const setForcastWeather =
-  (dispatch: React.Dispatch<IAction> | undefined) => () => {
-    if (dispatch) dispatch({ type: "", payload: "" });
+  (dispatch: React.Dispatch<IAction> | undefined) => (weather: any) => {
+    if (dispatch)
+      dispatch({ type: ACTION_TYPES.SET_FORCAT_WEATHER, payload: weather });
   };
 
 const Context = () => {
