@@ -9,7 +9,7 @@ const getCurrentWeather = async ({
   lon: string;
 }) => {
   const res = await axios.get(
-    `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}`
+    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}`
   );
   return res.data;
 };
@@ -21,7 +21,7 @@ const getForecastWeather = async ({
   lon: string;
 }) => {
   const res = await axios.get(
-    `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}`
+    `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}`
   );
   return res.data;
 };
