@@ -40,7 +40,7 @@ const TopBar = () => {
     debounce(async (value: string) => {
       try {
         const res = await GeoCodingService.getName(value);
-        console.log("🚀 ~ file: index.tsx:34 ~ debounce ~ res", res);
+        // console.log("🚀 ~ file: index.tsx:34 ~ debounce ~ res", res);
         const citiesArray: {
           value: string;
           label: string;
@@ -54,17 +54,17 @@ const TopBar = () => {
         });
         setOptions({ searchTerm: value, searchedOptions: citiesArray });
       } catch (e: any) {
-        console.log("🚀 ~ file: index.tsx:49 ~ debounce ~ e", e);
+        // console.log("🚀 ~ file: index.tsx:49 ~ debounce ~ e", e);
       }
     }, 500),
     []
   );
 
   const handleSelectedValue = async (selectedOption: any) => {
-    console.log(
-      "🚀 ~ file: index.tsx:56 ~ handleSelectedValue ~ selectedOption",
-      selectedOption
-    );
+    // console.log(
+    // "🚀 ~ file: index.tsx:56 ~ handleSelectedValue ~ selectedOption",
+    // selectedOption
+    // );
     setOptions({ ...options, searchTerm: selectedOption.value });
     setCity({
       name: selectedOption.value,
