@@ -91,13 +91,14 @@ const TopBar = () => {
   return (
     <HeaderContainer>
       <div className="left">
-        {React.createElement(
+        {/* {React.createElement(
           collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
           {
             className: "trigger",
             onClick: () => setCollapsed(!collapsed),
           }
-        )}
+        )} */}
+        
       </div>
       <div className="right">
         <InputSearch
