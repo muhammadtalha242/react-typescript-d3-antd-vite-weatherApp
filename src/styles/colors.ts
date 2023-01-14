@@ -6,6 +6,9 @@ export const GREY_QUINARY = '#728CA1';
 export const GREY_SENARY = '#BDBDBD';
 export const GREY_SEPTENARY = '#F2F2F2';
 export const GREY_OCTAL = '#FAFAFA';
+export const GREY_CULTURED= '#f5f5f599'
+export const GREY_SPANISH= '#979592'
+
 
 export const BLUE_SECONDARY = '#56CCF2';
 export const BLUE_TERTIARY = '#56A7F2';
