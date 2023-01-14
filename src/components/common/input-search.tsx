@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { AutoComplete, Input } from "antd";
+import { RiSearch2Line } from "react-icons/ri";
+import styled from "styled-components";
+import { GREY_CULTURED, GREY_SPANISH } from "../../styles/colors";
 
 interface props {
   value?: string;
@@ -11,8 +14,18 @@ interface props {
 
 export interface ISearch {
   searchTerm: string;
-  searchedOptions: { value: string; label: string; coordinates: {lat: string, lon: string} }[];
+  searchedOptions: {
+    value: string;
+    label: string;
+    coordinates: { lat: string; lon: string };
+  }[];
 }
+
+const InputContainer = styled(Input)`
+  background-color: ${GREY_CULTURED};
+  cursor: pointer;
+  line-height: 42px;
+`;
 
 const InputSearch = (props: props) => {
   const onSearch = (data: string): void => {
@@ -34,7 +47,11 @@ const InputSearch = (props: props) => {
       onSelect={onSelect}
       onSearch={onSearch}
     >
-      <Input.Search placeholder="Search location" />
+      <InputContainer
+        placeholder="Search location"
+        bordered={false}
+        prefix={<RiSearch2Line style={{ color: `${GREY_SPANISH}` }} />}
+      />
     </AutoComplete>
   );
 };

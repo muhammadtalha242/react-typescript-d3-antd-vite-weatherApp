@@ -1,15 +1,24 @@
-import React, { useCallback, useState } from "react";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import React, { useCallback, useState, useContext } from "react";
+// import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { AiOutlineBell, AiOutlineUser } from "react-icons/ai";
 import debounce from "lodash.debounce";
+import moment from "moment";
 
 import InputSearch, { ISearch } from "../common/input-search";
 import { HeaderContainer } from "./container";
 import GeoCodingService from "../../services/geocodeing-api";
 import WeatherService from "../../services/weather-api";
+import {
+  WeatherContext,
+  setCityDetails,
+  setCurrentWeather,
+  setForcastWeather,
+} from "../../context/weather-api.context";
+import { GREY_SPANISH } from "../../styles/colors";
 
 const TopBar = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const { dispatch: WeatherDispatch } = useContext(WeatherContext);
+  // const [collapsed, setCollapsed] = useState(false);
   const [city, setCity] = useState({ name: "", lat: "", lon: "" });
   const [options, setOptions] = useState<ISearch>({
     searchTerm: "",
@@ -31,8 +40,7 @@ const TopBar = () => {
     debounce(async (value: string) => {
       try {
         const res = await GeoCodingService.getName(value);
-        console.log("🚀 ~ file: index.tsx:34 ~ debounce ~ res", res);
-
+        // console.log("🚀 ~ file: index.tsx:34 ~ debounce ~ res", res);
         const citiesArray: {
           value: string;
           label: string;
@@ -46,49 +54,69 @@ const TopBar = () => {
         });
         setOptions({ searchTerm: value, searchedOptions: citiesArray });
       } catch (e: any) {
-        console.log("🚀 ~ file: index.tsx:49 ~ debounce ~ e", e);
+        // console.log("🚀 ~ file: index.tsx:49 ~ debounce ~ e", e);
       }
     }, 500),
     []
   );
 
   const handleSelectedValue = async (selectedOption: any) => {
-    console.log(
-      "🚀 ~ file: index.tsx:56 ~ handleSelectedValue ~ selectedOption",
-      selectedOption
-    );
+    // console.log(
+    // "🚀 ~ file: index.tsx:56 ~ handleSelectedValue ~ selectedOption",
+    // selectedOption
+    // );
     setOptions({ ...options, searchTerm: selectedOption.value });
     setCity({
       name: selectedOption.value,
       lat: selectedOption.coordinates.lat,
       lon: selectedOption.coordinates.lon,
     });
-
-    const res = await WeatherService.getCurrentWeather({
+    const currentWeatherResp = await WeatherService.getCurrentWeather({
       ...selectedOption.coordinates,
     });
-    console.log("🚀 ~ file: index.tsx:70 ~ handleSelectedValue ~ res", res)
+    const forcastWeatherResp = await WeatherService.getForecastWeather({
+      ...selectedOption.coordinates,
+    });
+    setCityDetails(WeatherDispatch)({
+      name: selectedOption.value,
+      coord: {
+        lat: selectedOption.coordinates.lat,
+        lon: selectedOption.coordinates.lon,
+      },
+    });
+    setCurrentWeather(WeatherDispatch)(currentWeatherResp);
+    setForcastWeather(WeatherDispatch)(forcastWeatherResp);
   };
+
   return (
     <HeaderContainer>
       <div className="left">
-        {React.createElement(
+        <div className="date-month-year">{moment().format("MMMM YYYY")}</div>
+        <div className="date-full">{moment().format("dddd, MMM Do, YYYY")}</div>
+        {/* {React.createElement(
           collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
           {
             className: "trigger",
             onClick: () => setCollapsed(!collapsed),
           }
-        )}
+        )} */}
       </div>
       <div className="right">
         <InputSearch
           handleSelectedValue={handleSelectedValue}
           displayOptions={options}
           setValue={handleInput}
-          name="search"
         />
-        <AiOutlineBell />
-        <AiOutlineUser />
+        <div className="notifications">
+          <AiOutlineBell
+            style={{ width: 28, height: 28, color: GREY_SPANISH }}
+          />
+        </div>
+        <div className="user">
+          <AiOutlineUser
+            style={{ width: 28, height: 28, color: GREY_SPANISH }}
+          />
+        </div>
       </div>
     </HeaderContainer>
   );
