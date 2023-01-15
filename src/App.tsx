@@ -1,13 +1,11 @@
-import React, { useState } from "react";
 import { Layout, theme } from "antd";
 import styled from "styled-components";
 import TopBar from "./components/topbar";
 import SideBar from "./components/sidebar";
 
-const LayoutContainer = styled(Layout)`
-`;
+const LayoutContainer = styled(Layout)``;
 
-const {Content } = Layout;
+const { Content } = Layout;
 
 const App = () => {
   const {
@@ -21,13 +19,11 @@ const App = () => {
         <TopBar />
         <Content
           style={{
-            margin: "24px 16px",
-            padding: 24,
-            minHeight: 280,
+            padding: 36,
             background: colorBgContainer,
           }}
         >
-          Content
+          Today Overview
         </Content>
       </Layout>
     </LayoutContainer>
