@@ -18,13 +18,10 @@ import { GREY_SPANISH } from "../../styles/colors";
 
 const TopBar = () => {
   const { dispatch: WeatherDispatch } = useContext(WeatherContext);
-  // const [collapsed, setCollapsed] = useState(false);
   const [city, setCity] = useState({ name: "", lat: "", lon: "" });
   const [options, setOptions] = useState<ISearch>({
     searchTerm: "",
-    searchedOptions: [
-      { value: "", label: "", coordinates: { lat: "", lon: "" } },
-    ],
+    searchedOptions: [],
   });
 
   const handleInput = async ({ value }: { value: string }) => {
