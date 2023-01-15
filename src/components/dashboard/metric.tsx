@@ -2,19 +2,18 @@ import React from "react";
 import { MetricContainer } from "./container";
 
 export interface IMetric {
-  icon: string;
+  icon?: React.ReactElement;
   title: string;
   value: string;
   change?: string;
 }
-
 
 const Metric = ({ icon, title, value, change }: IMetric) => {
   return (
     <MetricContainer>
       <div className="left">
         <div className="icon">
-          <img src="icons8-weather-96.png" width={64} height={64} />
+            {icon}
         </div>
       </div>
       <div className="center">
