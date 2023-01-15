@@ -2,9 +2,10 @@ import { useState } from "react";
 import { BsHouse, BsMap, BsFillPinMapFill, BsCalendar3 } from "react-icons/bs";
 import { Layout, Menu } from "antd";
 import { redirect, useNavigate } from "react-router-dom";
+import { WHITE_ANTI_FLASH } from "../../styles/colors";
+import { SiderContainer } from "./container";
 
 const SideBar = () => {
-  const [collapsed, setCollapsed] = useState(false);
   const { Sider } = Layout;
   const navigate = useNavigate();
   const onItemSelect = ({
@@ -25,17 +26,17 @@ const SideBar = () => {
   };
 
   return (
-    <Sider
+    <SiderContainer
       trigger={null}
-      collapsible
-      collapsed={collapsed}
-      style={{ background: "#EEF2F3" }}
+      style={{ background: WHITE_ANTI_FLASH }}
     >
-      <div className="logo"> TEST</div>
+      <div className="logo">
+        <img src="icons8-weather-96.png" alt="logo"  />
+      </div>
       <Menu
         mode="inline"
         defaultSelectedKeys={["dashboard"]}
-        style={{ background: "#EEF2F3" }}
+        style={{ background: WHITE_ANTI_FLASH, marginTop: 16 }}
         onSelect={onItemSelect}
         items={[
           {
@@ -49,7 +50,7 @@ const SideBar = () => {
             icon: <BsMap />,
           },
           {
-            key: "saved-locations",
+            key: "savedLocations",
             label: "Saved locations",
             icon: <BsFillPinMapFill />,
           },
@@ -60,7 +61,7 @@ const SideBar = () => {
           },
         ]}
       />
-    </Sider>
+    </SiderContainer>
   );
 };
 
