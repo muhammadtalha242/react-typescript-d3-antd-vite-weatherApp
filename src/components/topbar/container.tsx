@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { GREY_CULTURED, GREY_SPANISH, WHITE } from "../../styles/colors";
 
 export const HeaderContainer = styled.header`
-  border: 1px solid;
+  border-bottom: 1px solid ${GREY_SPANISH};
   padding: 30px;
   display: flex;
   justify-content: space-between;

@@ -1,5 +1,4 @@
 import React, { useCallback, useState, useContext } from "react";
-// import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { AiOutlineBell, AiOutlineUser } from "react-icons/ai";
 import debounce from "lodash.debounce";
 import moment from "moment";
@@ -18,13 +17,10 @@ import { GREY_SPANISH } from "../../styles/colors";
 
 const TopBar = () => {
   const { dispatch: WeatherDispatch } = useContext(WeatherContext);
-  // const [collapsed, setCollapsed] = useState(false);
   const [city, setCity] = useState({ name: "", lat: "", lon: "" });
   const [options, setOptions] = useState<ISearch>({
     searchTerm: "",
-    searchedOptions: [
-      { value: "", label: "", coordinates: { lat: "", lon: "" } },
-    ],
+    searchedOptions: [],
   });
 
   const handleInput = async ({ value }: { value: string }) => {
@@ -93,13 +89,6 @@ const TopBar = () => {
       <div className="left">
         <div className="date-month-year">{moment().format("MMMM YYYY")}</div>
         <div className="date-full">{moment().format("dddd, MMM Do, YYYY")}</div>
-        {/* {React.createElement(
-          collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-          {
-            className: "trigger",
-            onClick: () => setCollapsed(!collapsed),
-          }
-        )} */}
       </div>
       <div className="right">
         <InputSearch
