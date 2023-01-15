@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Layout, Menu, theme } from "antd";
+import { Layout, theme } from "antd";
 import styled from "styled-components";
-import { BsHouse, BsMap, BsFillPinMapFill, BsCalendar3 } from "react-icons/bs";
 import TopBar from "./components/topbar";
+import SideBar from "./components/sidebar";
 
 const LayoutContainer = styled(Layout)`
   border: 1px solid;
@@ -27,51 +27,16 @@ const LayoutContainer = styled(Layout)`
   }
 `;
 
-const { Header, Sider, Content } = Layout;
+const {Content } = Layout;
 
-const App: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(false);
+const App = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
   return (
     <LayoutContainer>
-      <Sider
-        trigger={null}
-        collapsible
-        collapsed={collapsed}
-        style={{ background: "#EEF2F3" }}
-      >
-        <div className="logo"> TEST</div>
-        <Menu
-          mode="inline"
-          defaultSelectedKeys={["1"]}
-          style={{ background: "#EEF2F3" }}
-          items={[
-            {
-              key: "1",
-              icon: <BsHouse />,
-              label: "Dashboard",
-            },
-            {
-              key: "2",
-              icon: <BsMap />,
-              label: "Map",
-            },
-            {
-              key: "3",
-              icon: <BsFillPinMapFill />,
-              label: "Saved locations",
-            },
-            {
-              key: "4",
-              icon: <BsCalendar3 />,
-              label: "Calendar",
-            },
-          ]}
-        />
-      </Sider>
+      <SideBar />
       <Layout className="site-layout">
         <TopBar />
         <Content
