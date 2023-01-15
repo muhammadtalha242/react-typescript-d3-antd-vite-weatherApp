@@ -1,5 +1,4 @@
 import React, { useCallback, useState, useContext } from "react";
-// import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { AiOutlineBell, AiOutlineUser } from "react-icons/ai";
 import debounce from "lodash.debounce";
 import moment from "moment";
@@ -90,13 +89,6 @@ const TopBar = () => {
       <div className="left">
         <div className="date-month-year">{moment().format("MMMM YYYY")}</div>
         <div className="date-full">{moment().format("dddd, MMM Do, YYYY")}</div>
-        {/* {React.createElement(
-          collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-          {
-            className: "trigger",
-            onClick: () => setCollapsed(!collapsed),
-          }
-        )} */}
       </div>
       <div className="right">
         <InputSearch
