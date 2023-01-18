@@ -5,18 +5,26 @@ import { MdOutlineWaves } from "react-icons/md";
 import { TbTemperatureCelsius } from "react-icons/tb";
 
 import { WeatherContext } from "../../context/weather-api.context";
-import { BLUE_SECONDARY } from "../../styles/colors";
+import {
+  BLUE_SECONDARY,
+  BLUE_TERTIARY,
+  GREEN_SECONDARY,
+  ORANGE_PRIMARY,
+} from "../../styles/colors";
 import { ContentContainer, MetricsContentContainer } from "./container";
 import Metric, { IMetric } from "./metric";
+import { ValidatorChart } from "./temperature-chart";
+import AreaChart from "../common/graphs/area-chart";
+import moment from "moment";
 
 const METRICS = {
   temperature: {
     title: "Temperature",
-    value: "2,3",
+    value: "23°C",
     change: "change",
     icon: (
       <TbTemperatureCelsius
-        style={{ width: 32, height: 32, color: BLUE_SECONDARY }}
+        style={{ width: 32, height: 32, color: ORANGE_PRIMARY }}
       />
     ),
   },
@@ -31,7 +39,7 @@ const METRICS = {
     value: "24%",
     change: "change",
     icon: (
-      <WiHumidity style={{ width: 32, height: 32, color: BLUE_SECONDARY }} />
+      <WiHumidity style={{ width: 32, height: 32, color: GREEN_SECONDARY }} />
     ),
   },
   pressure: {
@@ -39,9 +47,7 @@ const METRICS = {
     value: "720hpa",
     change: "change",
     icon: (
-      <MdOutlineWaves
-        style={{ width: 32, height: 32, color: BLUE_SECONDARY }}
-      />
+      <MdOutlineWaves style={{ width: 32, height: 32, color: BLUE_TERTIARY }} />
     ),
   },
 };
@@ -65,9 +71,7 @@ const Dashboard = () => {
 
     if (!isObjectEmpty) {
       const updatedMetrics = { ...metrics };
-      console.log("currentWeather: ", currentWeather);
-
-      updatedMetrics.temperature.value = `${currentWeather.main.temp} C`;
+      updatedMetrics.temperature.value = `${currentWeather.main.temp} °C`;
       updatedMetrics.windSpeed.value = `${currentWeather.wind.speed} Km/h`;
       updatedMetrics.pressure.value = `${currentWeather.main.pressure} hpa`;
       updatedMetrics.humidity.value = `${currentWeather.main.humidity} %`;
@@ -83,6 +87,18 @@ const Dashboard = () => {
           return <Metric {...metric} key={index} />;
         })}
       </MetricsContentContainer>
+      {/* <AreaChart
+        id={1}
+        data={[
+          { x: moment(), y: 19 },
+          { x: moment().add(1, "hour"), y: 20 },
+          { x: moment().add(2, "hour"), y: 19.5 },
+          { x: moment().add(3, "hour"), y: 20 },
+          { x: moment().add(4, "hour"), y: 19 },
+          { x: moment().add(5, "hour"), y: 20 },
+          { x: moment().add(6, "hour"), y: 19 },
+        ]}
+      /> */}
     </ContentContainer>
   );
 };
