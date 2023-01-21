@@ -3,14 +3,17 @@ import styled from 'styled-components';
 import * as d3 from 'd3';
 import * as shape from 'd3-shape';
 import moment from 'moment';
+import { BLACK } from '../../../styles/colors';
 
 const TOOLTIP_HEIGHT = 32;
 const TOOLTIP_WIDTH = 185;
 const TOOLTIP_OFFSET_X = 44;
 
 const ChartContainer = styled.div`
+border: 1px solid green;
   svg {
-    background: #c4c4c433;
+    border: 1px solid;
+    background: #fffff433;
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
     position: relative;
@@ -82,7 +85,7 @@ const ChartContainer = styled.div`
     }
 
     .col-right {
-      color: #c4c4c433;
+      color: ${BLACK};
       margin-left: 8px;
     }
 
@@ -93,19 +96,19 @@ const ChartContainer = styled.div`
 `;
 
 const StackedAreaChart = (props) => {
-    console.log("🚀 ~ file: area-chart.js:96 ~ StackedAreaChart ~ StackedAreaChart")
     const chartContainerRef = useRef();
+    const toolTipContainerRef = useRef();
     const [xOffset, setXOffset] = useState(null);
     const [yOffset, setYOffset] = useState(null);
     const [point, setPoint] = useState(null);
     const [cursorOut, setCursorOut] = useState(null);
+    const {  data: dataset, dimensions, id } = props;
 
     useEffect(() => {
-        const {  data: dataset } = props;
-        const id=1;
+
         let margin = { top: 20, right: 12, bottom: 25, left: 12 },
-            width = (800) - margin.left - margin.right,
-            height = (300) - margin.top - margin.bottom;
+            width = (chartContainerRef.current.offsetWidth || 800) - margin.left - margin.right,
+            height = (350) - margin.top - margin.bottom;
         height -= TOOLTIP_HEIGHT;
 
         const min = d3.min(dataset, (d) => d.y) - 1;
@@ -180,7 +183,7 @@ const StackedAreaChart = (props) => {
         const areaGradient = svg.append('defs').append('linearGradient').attr('id', `areaGradient-${props.id}`).attr('x1', '0%').attr('y1', '0%').attr('x2', '0%').attr('y2', '150%');
 
         // Append the first stop - the color at the top
-        areaGradient.append('stop').attr('offset', '0%').attr('stop-color', "#c4c4c433").attr('stop-opacity', 1);
+        areaGradient.append('stop').attr('offset', '0%').attr('stop-color', "#2C4B7F").attr('stop-opacity', 1);
 
         // Append the second stop - white transparant almost at the end
         areaGradient.append('stop').attr('offset', '100%').attr('stop-color', "#c4c4c433").attr('stop-opacity', 0);
@@ -214,6 +217,8 @@ const StackedAreaChart = (props) => {
         svg.append('circle').classed('hoverPoint', true);
 
         const mouseMove = (d) => {
+            const tooltipDimensions = toolTipContainerRef.current.getBoundingClientRect()
+            const chartContainerDimensions = chartContainerRef.current.getBoundingClientRect()
             const { offsetX } = d;
             const xValue = xScale.invert(offsetX);
 
@@ -225,16 +230,22 @@ const StackedAreaChart = (props) => {
                 return Math.abs(curr.x - xValue) < Math.abs(prev.x - xValue) ? curr : prev;
             }, dataset[0]);
 
-            setXOffset(xScale(closest.x));
+            if(offsetX>= chartContainerDimensions.width-tooltipDimensions.width){
+              setXOffset(offsetX-tooltipDimensions.width);
+
+            }else{
+
+              setXOffset(xScale(closest.x));
+            }
             setYOffset(yScale(closest.y));
             setPoint({
-                x: moment(closest.x).format("MMM-Do HH:00"),
+                x: moment(closest.x).format("MMM-Do HH:mm"),
                 y: closest.y
             });
 
             svg.selectAll('.hoverLine').attr('x1', xScale(closest.x)).attr('y1', yScale(closest.y)).attr('x2', xScale(closest.x)).attr('y2', height).attr('stroke', '#172A3A').attr('stroke-opacity', 0.25);
 
-            svg.selectAll('.hoverPoint').attr('cx', xScale(closest.x)).attr('cy', yScale(closest.y)).attr('r', '8').attr('stroke', color).attr('stroke-width', 3).attr('fill', '#FFFFFF');
+            svg.selectAll('.hoverPoint').attr('cx', xScale(closest.x)).attr('cy', yScale(closest.y)).attr('r', '8').attr('stroke', '#172A3A').attr('stroke-width', 3).attr('fill', '#FFFFFF');
         };
 
         svg.on('mousemove', mouseMove);
@@ -243,12 +254,12 @@ const StackedAreaChart = (props) => {
             svg.selectAll('.hoverPoint').style('display', 'none');
             setCursorOut(true);
         });
-    }, [props.data]);
+    }, [props.data, dimensions]);
 
     return (
         <ChartContainer ref={chartContainerRef} id={`chart-1`}>
 
-            {/* <div className="tooltip" style={{ top: yOffset, left: xOffset - TOOLTIP_OFFSET_X, visibility: !cursorOut && point ? 'visible' : 'hidden' }} id={`tooltip-${props.id}`}>
+            <div className="tooltip" ref={toolTipContainerRef} style={{ top: yOffset, left: xOffset, visibility: !cursorOut && point ? 'visible' : 'hidden' }} id={`tooltip-${props.id}`}>
                 {point && point.x && point.y && (
                     <>
                         <span className="col-left">{point.x}</span>
@@ -256,7 +267,7 @@ const StackedAreaChart = (props) => {
                         <span className="col-right">{point.y}</span>
                     </>
                 )}
-            </div> */}
+            </div>
         </ChartContainer>
     );
 }
