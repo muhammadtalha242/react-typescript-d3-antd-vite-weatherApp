@@ -25,7 +25,7 @@ export const MetricContainer = styled.div`
       margin-bottom: 16px;
     }
     .value {
-      font-size: 24px;
+      font-size: 2rem;
       font-weight: 500;
       color: ${BLACK};
     }
@@ -33,7 +33,7 @@ export const MetricContainer = styled.div`
 `;
 
 export const MetricsContentContainer = styled.div`
-  width: 65%;
+  width: 75%;
   display: grid;
   gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

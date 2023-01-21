@@ -50,6 +50,22 @@ const METRICS = {
       <MdOutlineWaves style={{ width: 32, height: 32, color: BLUE_TERTIARY }} />
     ),
   },
+  humidityX: {
+    title: "Humidity",
+    value: "24%",
+    change: "change",
+    icon: (
+      <WiHumidity style={{ width: 32, height: 32, color: GREEN_SECONDARY }} />
+    ),
+  },
+  pressureX: {
+    title: "Pressure",
+    value: "720hpa",
+    change: "change",
+    icon: (
+      <MdOutlineWaves style={{ width: 32, height: 32, color: BLUE_TERTIARY }} />
+    ),
+  },
 };
 
 type IMetricRes = typeof METRICS;
@@ -87,7 +103,7 @@ const Dashboard = () => {
           return <Metric {...metric} key={index} />;
         })}
       </MetricsContentContainer>
-      {/* <AreaChart
+      <AreaChart
         id={1}
         data={[
           { x: moment(), y: 19 },
@@ -98,7 +114,7 @@ const Dashboard = () => {
           { x: moment().add(5, "hour"), y: 20 },
           { x: moment().add(6, "hour"), y: 19 },
         ]}
-      /> */}
+      />
     </ContentContainer>
   );
 };
