@@ -93,7 +93,7 @@ const ChartContainer = styled.div`
 `;
 
 const StackedAreaChart = (props) => {
-    console.log("🚀 ~ file: area-chart.js:96 ~ StackedAreaChart ~ StackedAreaChart", StackedAreaChart)
+    console.log("🚀 ~ file: area-chart.js:96 ~ StackedAreaChart ~ StackedAreaChart")
     const chartContainerRef = useRef();
     const [xOffset, setXOffset] = useState(null);
     const [yOffset, setYOffset] = useState(null);
@@ -101,9 +101,10 @@ const StackedAreaChart = (props) => {
     const [cursorOut, setCursorOut] = useState(null);
 
     useEffect(() => {
-        const { id, data: dataset } = props;
+        const {  data: dataset } = props;
+        const id=1;
         let margin = { top: 20, right: 12, bottom: 25, left: 12 },
-            width = (400) - margin.left - margin.right,
+            width = (800) - margin.left - margin.right,
             height = (300) - margin.top - margin.bottom;
         height -= TOOLTIP_HEIGHT;
 
@@ -245,7 +246,7 @@ const StackedAreaChart = (props) => {
     }, [props.data]);
 
     return (
-        <ChartContainer ref={chartContainerRef} id={`chart-${props.id}`} >
+        <ChartContainer ref={chartContainerRef} id={`chart-1`}>
 
             {/* <div className="tooltip" style={{ top: yOffset, left: xOffset - TOOLTIP_OFFSET_X, visibility: !cursorOut && point ? 'visible' : 'hidden' }} id={`tooltip-${props.id}`}>
                 {point && point.x && point.y && (
