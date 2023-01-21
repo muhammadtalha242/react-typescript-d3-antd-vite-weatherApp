@@ -3,7 +3,10 @@ import { BsWind } from "react-icons/bs";
 import { WiHumidity } from "react-icons/wi";
 import { MdOutlineWaves } from "react-icons/md";
 import { TbTemperatureCelsius } from "react-icons/tb";
+import { Button } from "antd";
+import moment from "moment";
 
+import useWindowResize from "../../custom-hooks/useWindowResize";
 import { WeatherContext } from "../../context/weather-api.context";
 import {
   BLUE_SECONDARY,
@@ -18,8 +21,6 @@ import {
 } from "./container";
 import Metric, { IMetric } from "./metric";
 import AreaChart from "../common/graphs/area-chart";
-import moment from "moment";
-import useWindowResize from "../../custom-hooks/useWindowResize";
 
 const METRICS = {
   temperature: {
@@ -79,10 +80,8 @@ const Dashboard = () => {
   const [chartData, setChartData] = useState([]);
   const { state: weatherState } = useContext(WeatherContext);
   const [width, height] = useWindowResize()
-  console.log("🚀 ~ file: index.tsx:82 ~ Dashboard ~ width, height", width, height)
-  const [dimensions] = useState({ width, height })
   const { currentWeather, forcastWeather }: any = weatherState;
-  
+
   useEffect(() => {
 
     const isObjectEmpty =
@@ -97,17 +96,22 @@ const Dashboard = () => {
       updatedMetrics.pressure.value = `${currentWeather.main.pressure} hpa`;
       updatedMetrics.humidity.value = `${currentWeather.main.humidity} %`;
       setMetrics({ ...updatedMetrics });
-      getChartData();
+      getChartData('temp')();
     }
   }, [weatherState, currentWeather]);
 
 
-  const getChartData = () => {
-    const data = forcastWeather.list.map((e: any, index: number) => {
-      return { x: moment(e.dt_txt), y: e.main.temp };
+  const getChartData = (metricType: string) => () => {
+
+    const data = forcastWeather.list.map((e: any) => {
+      const { main, wind } = e;
+      const climate = { ...main, ...wind }
+      return { x: moment(e.dt_txt), y: climate[metricType] };
     });
     setChartData(data);
   };
+
+
 
   return (
     <ContentContainer>
@@ -117,9 +121,20 @@ const Dashboard = () => {
           return <Metric {...metric} key={index} />;
         })}
       </MetricsContentContainer>
-      <ChartContainer >
-        {chartData.length > 0 ? <AreaChart id={1} data={chartData} dimensions={{width, height}} /> : null}
-      </ChartContainer>
+      {chartData.length > 0 ? <ChartContainer  >
+        <div className="header">
+
+          <div className="title">Temperature</div>
+          <div className="buttons">
+            <Button type="text" onClick={getChartData('temp')} >Temp</Button>
+            <Button type="text" onClick={getChartData('humidity')} >humidity</Button>
+            <Button type="text" onClick={getChartData('pressure')} >pressure</Button>
+            <Button type="text" onClick={getChartData('speed')} >Wind speed</Button>
+
+          </div>
+        </div>
+        <AreaChart id={1} data={chartData} dimesnsions={{ width, height }} />
+      </ChartContainer> : null}
     </ContentContainer>
   );
 };
