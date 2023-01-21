@@ -10,7 +10,6 @@ const TOOLTIP_WIDTH = 185;
 const TOOLTIP_OFFSET_X = 44;
 
 const ChartContainer = styled.div`
-border: 1px solid green;
   svg {
     border: 1px solid;
     background: #fffff433;
