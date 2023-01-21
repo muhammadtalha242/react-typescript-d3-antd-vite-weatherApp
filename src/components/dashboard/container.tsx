@@ -13,7 +13,7 @@ export const MetricContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 300px;
+  width: 100%;
   height: 120px;
   border: 1px solid;
   background-color: ${GREY_CULTURED};
@@ -44,4 +44,25 @@ export const ChartContainer = styled.div`
   width: 75%;
   border: 1px solid red;
   margin-top: 36px;
+  
+  .header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .title{
+      
+    }
+    
+    .buttons{
+      button{
+        border-bottom: 1px solid;
+        border-radius: 0px;
+        margin: 4px;
+        padding: 0px;
+      }
+    }
+  }
+  
 `;
+
