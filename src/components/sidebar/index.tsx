@@ -40,7 +40,7 @@ const SideBar = () => {
         onSelect={onItemSelect}
         items={[
           {
-            key: "dashboardx",
+            key: "dashboard",
             label: "Dashboard",
             icon: <BsHouse />,
           },
