@@ -39,3 +39,9 @@ export const MetricsContentContainer = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   justify-items: center;
 `;
+
+export const ChartContainer = styled.div`
+  width: 75%;
+  border: 1px solid red;
+  margin-top: 36px;
+`;

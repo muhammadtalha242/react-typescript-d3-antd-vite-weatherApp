@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import { BsWind } from "react-icons/bs";
 import { WiHumidity } from "react-icons/wi";
 import { MdOutlineWaves } from "react-icons/md";
@@ -11,11 +11,15 @@ import {
   GREEN_SECONDARY,
   ORANGE_PRIMARY,
 } from "../../styles/colors";
-import { ContentContainer, MetricsContentContainer } from "./container";
+import {
+  ChartContainer,
+  ContentContainer,
+  MetricsContentContainer,
+} from "./container";
 import Metric, { IMetric } from "./metric";
-import { ValidatorChart } from "./temperature-chart";
 import AreaChart from "../common/graphs/area-chart";
 import moment from "moment";
+import useWindowResize from "../../custom-hooks/useWindowResize";
 
 const METRICS = {
   temperature: {
@@ -72,14 +76,15 @@ type IMetricRes = typeof METRICS;
 
 const Dashboard = () => {
   const [metrics, setMetrics] = useState<IMetricRes>(METRICS);
+  const [chartData, setChartData] = useState([]);
   const { state: weatherState } = useContext(WeatherContext);
-  console.log(
-    "🚀 ~ file: index.tsx:35 ~ Dashboard ~ weatherState",
-    weatherState
-  );
-  const { currentWeather }: any = weatherState;
-
+  const [width, height] = useWindowResize()
+  console.log("🚀 ~ file: index.tsx:82 ~ Dashboard ~ width, height", width, height)
+  const [dimensions] = useState({ width, height })
+  const { currentWeather, forcastWeather }: any = weatherState;
+  
   useEffect(() => {
+
     const isObjectEmpty =
       currentWeather && // 👈 null and undefined check
       Object.keys(currentWeather).length === 0 &&
@@ -92,8 +97,17 @@ const Dashboard = () => {
       updatedMetrics.pressure.value = `${currentWeather.main.pressure} hpa`;
       updatedMetrics.humidity.value = `${currentWeather.main.humidity} %`;
       setMetrics({ ...updatedMetrics });
+      getChartData();
     }
   }, [weatherState, currentWeather]);
+
+
+  const getChartData = () => {
+    const data = forcastWeather.list.map((e: any, index: number) => {
+      return { x: moment(e.dt_txt), y: e.main.temp };
+    });
+    setChartData(data);
+  };
 
   return (
     <ContentContainer>
@@ -103,18 +117,9 @@ const Dashboard = () => {
           return <Metric {...metric} key={index} />;
         })}
       </MetricsContentContainer>
-      <AreaChart
-        id={1}
-        data={[
-          { x: moment(), y: 19 },
-          { x: moment().add(1, "hour"), y: 20 },
-          { x: moment().add(2, "hour"), y: 19.5 },
-          { x: moment().add(3, "hour"), y: 20 },
-          { x: moment().add(4, "hour"), y: 19 },
-          { x: moment().add(5, "hour"), y: 20 },
-          { x: moment().add(6, "hour"), y: 19 },
-        ]}
-      />
+      <ChartContainer >
+        {chartData.length > 0 ? <AreaChart id={1} data={chartData} dimensions={{width, height}} /> : null}
+      </ChartContainer>
     </ContentContainer>
   );
 };
