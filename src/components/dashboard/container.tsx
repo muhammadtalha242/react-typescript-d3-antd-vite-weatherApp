@@ -4,9 +4,21 @@ const { Content } = Layout;
 import { Layout } from "antd";
 import { BLACK, GREY_CULTURED, WHITE } from "../../styles/colors";
 
-export const ContentContainer = styled(Content)`
-  padding: 36px;
+export const ContentContainer = styled.div`
+  height: 100vh;
   background: ${WHITE};
+  display:flex;
+  width: 100%;
+
+  .left-col{
+    width: 75%;
+    padding: 36px;
+
+  }
+  .right-col{
+    width: 25%;
+
+  }
 `;
 
 export const MetricContainer = styled.div`
@@ -33,7 +45,6 @@ export const MetricContainer = styled.div`
 `;
 
 export const MetricsContentContainer = styled.div`
-  width: 75%;
   display: grid;
   gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -41,7 +52,6 @@ export const MetricsContentContainer = styled.div`
 `;
 
 export const ChartContainer = styled.div`
-  width: 75%;
   border: 1px solid red;
   margin-top: 36px;
   
@@ -65,4 +75,3 @@ export const ChartContainer = styled.div`
   }
   
 `;
-
