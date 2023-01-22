@@ -28,15 +28,15 @@ const SideBar = () => {
   return (
     <SiderContainer
       trigger={null}
-      style={{ background: WHITE_ANTI_FLASH }}
+      style={{ background: WHITE_ANTI_FLASH,  }}
     >
       <div className="logo">
-        <img src="icons8-weather-96.png" alt="logo"  />
+        <img src="icons8-weather-96.png" alt="logo" />
       </div>
       <Menu
         mode="inline"
         defaultSelectedKeys={["dashboard"]}
-        style={{ background: WHITE_ANTI_FLASH, marginTop: 16 }}
+        style={{ background: WHITE_ANTI_FLASH, marginTop: 16, height: '100vh' }}
         onSelect={onItemSelect}
         items={[
           {
