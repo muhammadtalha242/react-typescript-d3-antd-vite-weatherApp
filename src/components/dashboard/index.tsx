@@ -21,6 +21,7 @@ import {
 } from "./container";
 import Metric, { IMetric } from "./metric";
 import AreaChart from "../common/graphs/area-chart";
+import SideBarRight from "../sidebar-right";
 
 const METRICS = {
   temperature: {
@@ -115,26 +116,31 @@ const Dashboard = () => {
 
   return (
     <ContentContainer>
-      Today Oveerview HERE
-      <MetricsContentContainer>
-        {Object.values(metrics).map((metric: IMetric, index: number) => {
-          return <Metric {...metric} key={index} />;
-        })}
-      </MetricsContentContainer>
-      {chartData.length > 0 ? <ChartContainer  >
-        <div className="header">
+      <div className="left-col">
+        Today Oveerview HERE
+        <MetricsContentContainer>
+          {Object.values(metrics).map((metric: IMetric, index: number) => {
+            return <Metric {...metric} key={index} />;
+          })}
+        </MetricsContentContainer>
+        {chartData.length > 0 ? <ChartContainer  >
+          <div className="header">
 
-          <div className="title">Temperature</div>
-          <div className="buttons">
-            <Button type="text" onClick={getChartData('temp')} >Temp</Button>
-            <Button type="text" onClick={getChartData('humidity')} >humidity</Button>
-            <Button type="text" onClick={getChartData('pressure')} >pressure</Button>
-            <Button type="text" onClick={getChartData('speed')} >Wind speed</Button>
+            <div className="title">Temperature</div>
+            <div className="buttons">
+              <Button type="text" onClick={getChartData('temp')} >Temp</Button>
+              <Button type="text" onClick={getChartData('humidity')} >humidity</Button>
+              <Button type="text" onClick={getChartData('pressure')} >pressure</Button>
+              <Button type="text" onClick={getChartData('speed')} >Wind speed</Button>
 
+            </div>
           </div>
-        </div>
-        <AreaChart id={1} data={chartData} dimesnsions={{ width, height }} />
-      </ChartContainer> : null}
+          <AreaChart id={1} data={chartData} dimesnsions={{ width, height }} />
+        </ChartContainer> : null}
+      </div>
+      <div className="right-col">
+        <SideBarRight />
+      </div>
     </ContentContainer>
   );
 };
