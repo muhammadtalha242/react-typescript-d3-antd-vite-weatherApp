@@ -42,9 +42,10 @@ const TopBar = () => {
           label: string;
           coordinates: { lat: string; lon: string };
         }[] = res.map((ele: any, index: number) => {
+          const v_ = `${ele.name}, ${ele.state ? ele.state : ''}`
           return {
-            label: `${ele.name}, ${ele.state}`,
-            value: `${ele.name}, ${ele.state}`,
+            label: v_,
+            value: v_,
             coordinates: { lat: ele.lat, lon: ele.lon },
           };
         });
