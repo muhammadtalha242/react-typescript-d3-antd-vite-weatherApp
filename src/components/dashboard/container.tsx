@@ -7,17 +7,21 @@ import { BLACK, GREY_CULTURED, WHITE } from "../../styles/colors";
 export const ContentContainer = styled.div`
   height: 100vh;
   background: ${WHITE};
-  display:flex;
+  display: flex;
   width: 100%;
 
-  .left-col{
-    width: 75%;
+  .left-col {
+    width: 100%;
     padding: 36px;
 
+    .name {
+      padding-bottom: 16px;
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
   }
-  .right-col{
-    width: 25%;
-
+  .right-col {
+    // width: 25%;
   }
 `;
 
@@ -54,18 +58,17 @@ export const MetricsContentContainer = styled.div`
 export const ChartContainer = styled.div`
   border: 1px solid red;
   margin-top: 36px;
-  
-  .header{
+
+  .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    .title{
-      
+    .title {
     }
-    
-    .buttons{
-      button{
+
+    .buttons {
+      button {
         border-bottom: 1px solid;
         border-radius: 0px;
         margin: 4px;
@@ -73,5 +76,4 @@ export const ChartContainer = styled.div`
       }
     }
   }
-  
 `;

@@ -80,11 +80,10 @@ const Dashboard = () => {
   const [metrics, setMetrics] = useState<IMetricRes>(METRICS);
   const [chartData, setChartData] = useState([]);
   const { state: weatherState } = useContext(WeatherContext);
-  const [width, height] = useWindowResize()
-  const { currentWeather, forcastWeather }: any = weatherState;
+  const [width, height] = useWindowResize();
+  const { currentWeather, forcastWeather, cityName }: any = weatherState;
 
   useEffect(() => {
-
     const isObjectEmpty =
       currentWeather && // 👈 null and undefined check
       Object.keys(currentWeather).length === 0 &&
@@ -97,50 +96,58 @@ const Dashboard = () => {
       updatedMetrics.pressure.value = `${currentWeather.main.pressure} hpa`;
       updatedMetrics.humidity.value = `${currentWeather.main.humidity} %`;
       setMetrics({ ...updatedMetrics });
-      getChartData('temp')();
+      getChartData("temp")();
     }
   }, [weatherState, currentWeather]);
 
-
   const getChartData = (metricType: string) => () => {
-
     const data = forcastWeather.list.map((e: any) => {
       const { main, wind } = e;
-      const climate = { ...main, ...wind }
+      const climate = { ...main, ...wind };
       return { x: moment(e.dt_txt), y: climate[metricType] };
     });
     setChartData(data);
   };
 
-
-
   return (
     <ContentContainer>
       <div className="left-col">
-        Today Oveerview HERE
+        <div className="name">{cityName}</div>
         <MetricsContentContainer>
           {Object.values(metrics).map((metric: IMetric, index: number) => {
             return <Metric {...metric} key={index} />;
           })}
         </MetricsContentContainer>
-        {chartData.length > 0 ? <ChartContainer  >
-          <div className="header">
-
-            <div className="title">Temperature</div>
-            <div className="buttons">
-              <Button type="text" onClick={getChartData('temp')} >Temp</Button>
-              <Button type="text" onClick={getChartData('humidity')} >humidity</Button>
-              <Button type="text" onClick={getChartData('pressure')} >pressure</Button>
-              <Button type="text" onClick={getChartData('speed')} >Wind speed</Button>
-
+        {chartData.length > 0 ? (
+          <ChartContainer>
+            <div className="header">
+              <div className="title">Temperature</div>
+              <div className="buttons">
+                <Button type="text" onClick={getChartData("temp")}>
+                  Temp
+                </Button>
+                <Button type="text" onClick={getChartData("humidity")}>
+                  humidity
+                </Button>
+                <Button type="text" onClick={getChartData("pressure")}>
+                  pressure
+                </Button>
+                <Button type="text" onClick={getChartData("speed")}>
+                  Wind speed
+                </Button>
+              </div>
             </div>
-          </div>
-          <AreaChart id={1} data={chartData} dimesnsions={{ width, height }} />
-        </ChartContainer> : null}
+            <AreaChart
+              id={1}
+              data={chartData}
+              dimesnsions={{ width, height }}
+            />
+          </ChartContainer>
+        ) : null}
       </div>
-      <div className="right-col">
+      {/* <div className="right-col">
         <SideBarRight />
-      </div>
+      </div> */}
     </ContentContainer>
   );
 };
